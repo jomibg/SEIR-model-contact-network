@@ -3,13 +3,14 @@ import os
 
 
 class InfectionResult:
-    def __init__(self, vnum, snum):
+    def __init__(self, vnum, snum, node_names):
         '''
         :param vnum: number of vertices (int)
         :param snum: number of simulations (int)
         '''
         self.vnum = vnum
         self.snum = snum
+        self.node_names = node_names
         self.samples = np.zeros((snum, vnum))
         self.expected_values = np.zeros(vnum)
         self.infection_rate = 0
@@ -39,5 +40,6 @@ class InfectionResult:
         if not os.path.exists(output_path):
             os.makedirs(output_path)
         np.save(os.path.join(output_path, 'node_probabilities.npy'), self.expected_values)
+        np.save(os.path.join(output_path, 'node_names.npy'), self.node_names)
         with open(os.path.join(output_path, 'infection_rate.txt'), 'w') as file:
             file.write(f'Global infection rate {self.infection_rate}')
